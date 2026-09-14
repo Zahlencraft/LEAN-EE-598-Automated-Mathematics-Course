@@ -1,4 +1,4 @@
-import LeanIntro.Basic
+--import LeanIntro.Basic
 import Mathlib
 import Mathlib.Tactic.Linarith
 

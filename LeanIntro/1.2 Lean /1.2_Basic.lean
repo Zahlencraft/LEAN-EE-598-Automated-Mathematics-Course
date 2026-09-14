@@ -1,6 +1,6 @@
 -- Lean Project Types
 -- Standalone : A standalone Lean project is a simple project that contains only a single Lean file and does not depend on any external lib.
-import Mathlib.Data.Real.Basic
+
 #eval 1 + 2
 
 example (x y z : ℚ)
