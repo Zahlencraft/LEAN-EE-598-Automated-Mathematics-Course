@@ -1,0 +1,3 @@
+-- Lean Project Types
+-- Standalone : A standalone Lean project is a simple project that contains only a single Lean file and does not depend on any external libraries.
+-- Mathlib : A mathlib project is a special type of library project that contains mathematical definitions and theorems. It is a large collection of Lean files that can be used by other projects.
