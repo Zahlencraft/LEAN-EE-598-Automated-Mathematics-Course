@@ -470,7 +470,7 @@ def is_even (x : ℕ) : Bool := x % 2 = 0
 /- `Prop` has values that are *proofs*. -/
 
 def my_prop : Prop := ∀ x : ℕ, x ≥ 0
-def my_proof : my_prop := fun x => Nat.zero_le x
+theorem my_proof : my_prop := fun x => Nat.zero_le x
 theorem my_theorem : my_prop := my_proof
 
 #check my_prop            -- Prop
@@ -588,7 +588,7 @@ Characters are unicode values with a way to write them as characters under the h
 #eval 'u'.toNat
 #eval Char.mk 117 (by aesop)
 #eval 'x'.isLower
-#eval 'x'.toUpper
+#eval 'a'.toUpper
 
 /- Strings are lists of characters. -/
 
