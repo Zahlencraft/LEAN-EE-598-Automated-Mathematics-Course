@@ -156,6 +156,7 @@ Exercises
 
 
 
+
 Type Checking
 ===
 
@@ -165,7 +166,7 @@ To find the type of an expression, use #check. The result will show up in the In
 #check 1
 #check "1"
 #check ∃ (x : Nat), x < 0
-#check fun x => x+1
+#check fun x => x + 1
 
 /-
 Exercises
@@ -253,7 +254,8 @@ Exercises
 of the previous example replacing the proof with the single line `aesop`.
 -/
 
-
+example (p q r : Prop) : (p → q) ∧ (q → r) → (p → r) := by
+  aesop
 
 /-
 Programming
@@ -286,6 +288,15 @@ of natural numbers. Use `remove_zeros` as a template. Test your
 code using `#eval`.
 
 -/
+def square (L : List ℕ) : List ℕ :=
+match L with
+  | [] => List.nil
+  | x::Q =>  x*x ::(square Q)
+
+#check square
+
+#eval square [1,2,3,5]     -- [1,2,3,5]
+
 
 /-
 Documentation and Resources

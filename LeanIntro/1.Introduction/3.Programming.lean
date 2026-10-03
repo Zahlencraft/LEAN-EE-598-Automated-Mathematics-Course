@@ -89,6 +89,7 @@ rest of an expression.
 def f3 (x : ℕ) : ℕ :=
   let y := x*x
   y+1
+-- translates to (λy. y+1) x*x and y is bound to argument (x * x).
 
 #eval f3 4
 
@@ -121,7 +122,7 @@ def f5 := f4 10
 The function `f5` in this case is equivalent to
 -/
 
-def f5' (y: ℕ) := 20 + y
+def f5' (y : ℕ) := 20 + y
 
 /-
 Testing these functions gives:
@@ -145,7 +146,8 @@ For example:
 
 def do_twice (f : ℕ → ℕ) (x : ℕ) := f (f x)
 
-#check do_twice f1                    -- ℕ → ℕ
+#check do_twice f1
+-- do_twice f₁ ≡ λ f. λ x.f(f x) f₁ ≡ λx. f₁(f₁ x)                 -- ℕ → ℕ
 #eval do_twice f1 3                   -- 5
 #eval do_twice (do_twice f1) 3        -- 7
 
@@ -172,21 +174,35 @@ Exercises
 <ex/> Define a function `abs_diff` that takes two ℕural numbers and returns the absolute
 value of their difference. Use only the constructs defined so far. Evaluate
 ```lean
-#eval abs_diff 23 89
-#eval abs_diff 101 89
+
+
 ```
 <ex/> Define a function `apply_twice_when_even` that takes a function `f` and a
 natural number `x` and returns a function that applies `f` twice if `x` is
 even, and once otherwise. Then try these`evals:
 ```lean
-#eval apply_twice_when_even (abs_diff 10) 8
-#eval apply_twice_when_even (abs_diff 10) 11
+
 ```
 
 (Optional) Show that `abs_diff` is symmetric in its arguments.
 
 -/
 
+def abs_diff (a b : ℕ) : ℕ :=
+  if a < b
+  then b - a
+  else a - b
+
+#eval abs_diff 23 89
+#eval abs_diff 101 89
+
+def apply_twice_when_even (f : ℕ → ℕ)(x : ℕ) : ℕ :=
+  if x % 2 == 0
+  then f (f x)
+  else f x
+
+#eval apply_twice_when_even (abs_diff 10) 8
+#eval apply_twice_when_even (abs_diff 10) 11
 
 
 /-
@@ -300,7 +316,7 @@ of termination.
 Head Recursion
 ===
 
-They way we wrote `fct`
+The way we wrote `fct`
 
 ```lean
 def fct (n : ℕ) : ℕ :=
@@ -334,7 +350,7 @@ Now both arguments to `factAux` must be evaluated before calling `factAux` again
 ```lean
 factAux 4 1 = factAux 3 (acc*4)  = factAux 3 4
             = factAux 2 (4*3)    = factAux 2 12
-            = factAux 1 (12*2)   = factAux 1 * 24
+            = factAux 1 (12*2)   = factAux 1 24
             = factAux 0 24       = 24
 ```
 We wrap `factAux` to initialize `acc` and get the desired function. -/
@@ -401,7 +417,8 @@ Recall the Fibonacci sequence is defined by
   fib n = f (n-1) + f (n-2)
 ```
 
-<ex/> Define `fib` using head recursion. Test it with a few examples.
+-- Define `fib` using head recursion. Test it with a few examples.
+
 
 <ex/> Define `fib` using tail recursion. Test it with a few examples.
 
@@ -413,9 +430,30 @@ two values in the sequence.
 
 -/
 
+def head_fib (n : ℕ) : ℕ :=
+  match n with
+  | 0 => 0
+  | 1 => 1
+  | k + 1 => head_fib (k) + head_fib (k - 1)
 
+#eval head_fib 10
+#eval head_fib 15
+
+def tail_fib (n a b : ℕ) : ℕ :=
+  match n with
+  | 0 => a
+  | k + 1 => tail_fib k b (a + b)
+
+#eval tail_fib 0 0 1
+#eval tail_fib 1 0 1
+#eval tail_fib 2 0 1
+#eval tail_fib 3 0 1
+#eval tail_fib 4 0 1
+#eval tail_fib 5 0 1
+#eval tail_fib 10 0 1
 
 /-
+
 Booelans vs Propositions
 ===
 
